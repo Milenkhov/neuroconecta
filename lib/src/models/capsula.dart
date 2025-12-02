@@ -6,7 +6,7 @@ class Capsula {
   final String category;
   final String description;
   final String? videoUrl;
-  final List<String> attachments; // URLs or names
+  final List<String> attachments; // URLs o nombres
   final DateTime? createdAt;
 
   Capsula({

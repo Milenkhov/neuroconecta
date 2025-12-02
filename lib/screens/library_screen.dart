@@ -41,7 +41,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
                 setState(() => _results = const []);
                 return;
               }
-              // Keep server-side search as fallback, but client-side is immediate.
+              // Mantener la búsqueda en servidor como respaldo, la local es inmediata.
               final results = await state.search(q);
               if (!mounted) return;
               setState(() => _results = results.isNotEmpty ? results : _filterClientSide(all, q));
@@ -73,14 +73,14 @@ class _LibraryScreenState extends State<LibraryScreen> {
                     results: _filterByCategory(_results, _selected),
                   )
                 : (_selected == null || _selected == 'Todos')
-                    // Client-side for all
+                    // Lado cliente para "Todos"
                     ? (all.isEmpty
                         ? const Center(child: Text('Sin cápsulas'))
                         : ListView.builder(
                             itemCount: all.length,
                             itemBuilder: (context, i) => _CapsulaTile(all[i]),
                           ))
-                    // Server-side stream for specific category
+                    // Flujo desde servidor para una categoría específica
                     : StreamBuilder<List<Capsula>>(
                         stream: state.repo.watchByCategory(_selected!),
                         builder: (context, snap) {
@@ -120,7 +120,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
 
   String _normalize(String s) {
     final lower = s.toLowerCase();
-    // Basic diacritics strip
+    // Eliminación básica de diacríticos
     const accents = {
       'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u', 'ü': 'u', 'ñ': 'n',
     };
@@ -186,7 +186,7 @@ class _SearchBarState extends State<_SearchBar> {
         onChanged: (t) {
           final oc = widget.onChanged;
           if (oc != null) oc(t);
-          // Live-clear when input becomes empty
+          // Limpieza en vivo cuando la entrada queda vacía
           if (t.trim().isEmpty) widget.onSubmit('');
         },
         onSubmitted: widget.onSubmit,

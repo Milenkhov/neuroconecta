@@ -13,7 +13,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   try {
     await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-    // Enable offline persistence for Firestore
+    // Habilitar la persistencia sin conexión para Firestore
     FirebaseFirestore.instance.settings = const Settings(persistenceEnabled: true);
   } catch (_) {}
   runApp(NeuroConectaApp());

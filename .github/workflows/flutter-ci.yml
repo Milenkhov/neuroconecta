@@ -1,0 +1,54 @@
+name: Flutter CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  lint_and_tests:
+    name: Analyze & Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.35.7'
+          channel: 'stable'
+      - name: Flutter Pub Get
+        run: flutter pub get
+      - name: Flutter Analyze
+        run: flutter analyze
+      - name: Flutter Test (if any)
+        run: |
+          if [ -d test ] && ls test/*.dart >/dev/null 2>&1; then
+            flutter test
+          else
+            echo "No tests found, skipping."
+          fi
+
+  android_apk:
+    name: Android APK (debug)
+    needs: lint_and_tests
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.35.7'
+          channel: 'stable'
+      - name: Flutter Pub Get
+        run: flutter pub get
+      - name: Build Debug APK
+        run: flutter build apk --debug
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: neuroconecta-debug-apk
+          path: build/app/outputs/flutter-apk/app-debug.apk

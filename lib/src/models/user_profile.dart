@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserProfile {
   final String uid;
-  final String role; // 'admin' or 'user'
-  final String subscription; // 'free' or 'premium'
-  final int views; // number of capsule video views
+  final String role; // 'admin' o 'user'
+  final String subscription; // 'free' o 'premium'
+  final int views; // número de visualizaciones de cápsulas
   final DateTime? createdAt;
 
   UserProfile({

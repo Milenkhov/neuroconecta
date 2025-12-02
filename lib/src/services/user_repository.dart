@@ -54,7 +54,7 @@ class UserRepository {
   Future<bool> canViewMore() async {
     final profile = await ensureProfile();
     if (profile.subscription == 'premium') return true;
-    // Free quota: 2 views
+    // Cuota gratuita: 2 visualizaciones
     return profile.views < 2;
   }
 
